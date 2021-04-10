@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "name": "Open Solo Jazz - Prelims",
+  "scoring_system_id": 1,
+  "participants": [1, 2],
+  "judges": [1, 2],
+  "head_judge_id": 1,
+  "scores": [
+    { "participant_id": 1, "judge_id": 1, "value": 2 },
+    { "participant_id": 1, "judge_id": 2, "value": 1 },
+    { "participant_id": 2, "judge_id": 1, "value": 1 },
+    { "participant_id": 2, "judge_id": 2, "value": 0 }
+  ]
+}

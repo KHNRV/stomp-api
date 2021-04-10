@@ -1,0 +1,68 @@
+{
+  "id": 1,
+  "event_code": "csc2021",
+  "event_name": "Canadian Swing Championships 2021",
+  "email": "info@canadianswingchampionships.com",
+  "participants": [
+    {
+      "id": 1,
+      "bib": 101,
+      "first_name": "Yam",
+      "last_name": "Atkins",
+      "email": "yam.atkins@gmail.com",
+      "phone": "(599) 723-6865"
+    },
+    {
+      "bib": 102,
+      "id": 2,
+      "first_name": "Oli",
+      "last_name": "Atkins",
+      "email": "oli.atkins@gmail.com",
+      "phone": "(476) 431-6434"
+    }
+  ],
+  "judges": [
+    {
+      "id": 1,
+      "first_name": "Sylvia",
+      "last_name": "Sykes",
+      "email": "sylvia.sykes@hey.com",
+      "phone": "(970) 682-3614"
+    },
+    {
+      "id": 2,
+      "first_name": "Annie",
+      "last_name": "Trudeau",
+      "email": "annie.trudeau@outlook.com",
+      "phone": "(647) 753-9519"
+    }
+  ],
+  "competitions": [
+    {
+      "id": 1,
+      "name": "Open Solo Jazz - Prelims",
+      "scoring_system_id": 1,
+      "participants": [1, 2],
+      "judges": [1, 2],
+      "head_judge_id": 1,
+      "scores": [
+        { "participant_id": 1, "judge_id": 1, "value": 2 },
+        { "participant_id": 1, "judge_id": 2, "value": 1 },
+        { "participant_id": 2, "judge_id": 1, "value": 1 },
+        { "participant_id": 2, "judge_id": 2, "value": 0 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Open Solo Jazz - Finals",
+      "scoring_system_id": 2,
+      "participants": [1],
+      "judges": [1, 2],
+      "head_judge_id": 1,
+      "scores": [
+        { "participant_id": 1, "judge_id": 1, "value": null },
+        { "participant_id": 1, "judge_id": 2, "value": null }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+Table events {
+  id integer [primary key, increment, not null]
+  event_code varcharacter(255) [not null, unique]
+  event_name varcharacter(255) [not null]
+  password varcharacter(255) [not null]
+  email varcharacter(255) [not null]
+}
+
+Table competitions {
+  id integer [primary key, increment, not null]
+  name varcharacter(255) [not null]
+  scoring_system_id integer [ref: > scoring_systems.id]
+  event_id integer [ref: > events.id]
+  head_judge_id integer [ref: - judges.id]
+}
+
+Table scoring_systems {
+  id integer [primary key, increment, not null]
+  name varcharacter(255) [not null]
+  active boolean [default: true]
+}
+
+Table participants {
+  id integer [primary key, increment, not null]
+  bib integer [unique]
+  first_name varcharacter(255) [not null]
+  last_name varcharacter(255) [not null]
+  email varcharacter(255)
+  event_id integer [ref: > events.id]
+}
+
+Table entries {
+  id integer [primary key, increment, not null]
+  participant_id integer [ref: > participants.id]
+  competition_id integer [ref: > competitions.id]
+}
+
+Table judges {
+  id integer [primary key, increment, not null]
+  first_name varcharacter(255) [not null]
+  last_name varcharacter(255) [not null]
+  email varcharacter(255)
+  phone varcharacter(255)
+}
+
+Table scores {
+  id integer [primary key, increment, not null]
+  entry_id integer [ref: > entries.id]
+  judge_id integer [ref: > judges.id, not null]
+  value integer [not null]
+}
