@@ -1,0 +1,10 @@
+insert into judges (id, first_name, last_name, email, phone) values (1, 'Matteo', 'Bramsen', 'mbramsen0@arstechnica.com', '(552) 2216032');
+insert into judges (id, first_name, last_name, email, phone) values (2, 'Tucky', 'Guinery', 'tguinery1@facebook.com', '(418) 9349193');
+insert into judges (id, first_name, last_name, email, phone) values (3, 'Mortie', 'Cragoe', 'mcragoe2@networkadvertising.org', '(952) 5043463');
+insert into judges (id, first_name, last_name, email, phone) values (4, 'Marylou', 'Curlis', 'mcurlis3@google.com', '(528) 4490393');
+insert into judges (id, first_name, last_name, email, phone) values (5, 'Sean', 'Comello', 'scomello4@cdc.gov', '(246) 8882097');
+insert into judges (id, first_name, last_name, email, phone) values (6, 'Vale', 'McCroary', 'vmccroary5@com.com', '(618) 9757680');
+insert into judges (id, first_name, last_name, email, phone) values (7, 'Nikos', 'Sawday', 'nsawday6@squidoo.com', '(713) 9523220');
+insert into judges (id, first_name, last_name, email, phone) values (8, 'Sandor', 'Hyde-Chambers', 'shydechambers7@netlog.com', '(698) 9388785');
+insert into judges (id, first_name, last_name, email, phone) values (9, 'Mario', 'Perazzo', 'mperazzo8@techcrunch.com', '(285) 3853834');
+insert into judges (id, first_name, last_name, email, phone) values (10, 'Worth', 'Kelemen', 'wkelemen9@unesco.org', '(390) 6722022');
