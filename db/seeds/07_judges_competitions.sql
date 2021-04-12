@@ -12,6 +12,6 @@ insert into judges_competitions (competition_id, judge_id) values (2, 9);
 insert into judges_competitions (competition_id, judge_id) values (2, 10);
 insert into judges_competitions (competition_id, judge_id) values (3, 1);
 insert into judges_competitions (competition_id, judge_id) values (3, 2);
-insert into judges_competitions (competition_id, judge_id) values (3, 5);
+insert into judges_competitions (competition_id, judge_id) values (3, 4);
 insert into judges_competitions (competition_id, judge_id) values (3, 6);
-insert into judges_competitions (competition_id, judge_id) values (3, 7);
+insert into judges_competitions (competition_id, judge_id) values (3, 9);
