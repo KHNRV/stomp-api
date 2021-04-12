@@ -1,13 +1,4 @@
 module.exports = (db) => {
-  const getEvents = () => {
-    const query = "SELECT id, event_code, event_name, email FROM events";
-
-    return db
-      .query(query)
-      .then((result) => result.rows)
-      .catch((err) => err);
-  };
-
   const getUserByEmail = (email) => {
     const query = {
       text: `SELECT * FROM users WHERE email = $1`,
@@ -47,9 +38,31 @@ module.exports = (db) => {
   };
 
   return {
-    getEvents,
-    getUserByEmail,
-    addUser,
-    getUsersPosts,
+    events: {
+      all() {
+        const query = {
+          text: ` SELECT id, event_code, event_name, email FROM events`,
+        };
+
+        return db
+          .query(query)
+          .then((result) => result.rows)
+          .catch((err) => err);
+      },
+
+      getByCode(event_code) {
+        const query = {
+          text: ` SELECT id, event_code, event_name, email  
+                  FROM events
+                  WHERE event_code = $1`,
+          values: [event_code],
+        };
+
+        return db
+          .query(query)
+          .then((result) => result.rows[0])
+          .catch((err) => err);
+      },
+    },
   };
 };
