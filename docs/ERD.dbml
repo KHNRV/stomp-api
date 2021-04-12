@@ -42,6 +42,7 @@ Table judges {
   last_name varcharacter(255) [not null]
   email varcharacter(255)
   phone varcharacter(255)
+  event_id integer [ref: > events.id]
 }
 
 Table scores {
