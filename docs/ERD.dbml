@@ -36,6 +36,12 @@ Table entries {
   competition_id integer [ref: > competitions.id]
 }
 
+Table judges_competitions {
+    id integer [primary key, increment, not null]
+    competition_id integer [ref: > competitions.id]
+    judge_id integer [ref: > judges.id]
+}
+
 Table judges {
   id integer [primary key, increment, not null]
   first_name varcharacter(255) [not null]

@@ -10,6 +10,12 @@ ALTER TABLE "entries" ADD FOREIGN KEY ("participant_id") REFERENCES "participant
 
 ALTER TABLE "entries" ADD FOREIGN KEY ("competition_id") REFERENCES "competitions" ("id");
 
+ALTER TABLE "judges_competitions" ADD FOREIGN KEY ("competition_id") REFERENCES "competitions" ("id");
+
+ALTER TABLE "judges_competitions" ADD FOREIGN KEY ("judge_id") REFERENCES "judges" ("id");
+
+ALTER TABLE "judges" ADD FOREIGN KEY ("event_id") REFERENCES "events" ("id");
+
 ALTER TABLE "scores" ADD FOREIGN KEY ("entry_id") REFERENCES "entries" ("id");
 
 ALTER TABLE "scores" ADD FOREIGN KEY ("judge_id") REFERENCES "judges" ("id");
