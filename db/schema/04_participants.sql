@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS participants CASCADE;
 CREATE TABLE "participants" (
   "id" SERIAL PRIMARY KEY NOT NULL,
   "bib" integer UNIQUE,

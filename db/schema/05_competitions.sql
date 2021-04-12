@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS competitions CASCADE;
 CREATE TABLE "competitions" (
   "id" SERIAL PRIMARY KEY NOT NULL,
   "name" varchar(255) NOT NULL,

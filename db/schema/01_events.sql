@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS events CASCADE;
 CREATE TABLE "events" (
   "id" SERIAL PRIMARY KEY NOT NULL,
   "event_code" varchar(255) UNIQUE NOT NULL,
