@@ -1,8 +1,3 @@
-SELECT event_id, json_agg(json_build_object('id', id,
-                                            'bib', bib,
-                                            'first_name', first_name,
-                                            'last_name', last_name,
-                                            'email', email,
-                                            'phone', phone)) AS participants
+SELECT id, bib, first_name, last_name, email, phone
 FROM participants
-GROUP BY event_id;
+WHERE event_id = 1;
