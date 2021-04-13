@@ -13,5 +13,22 @@ module.exports = (db) => {
         })
       );
   });
+
+  participants.post("/", (req, res) => {
+    const participant = req.body;
+    const event_code = req.params.event_code;
+    let event_id;
+
+    db.events.read.id
+      .findByEventCode(event_code)
+      .then((id) => {
+        event_id = id;
+        return db.participants.create(id, participant);
+      })
+      .then(() => db.events.read.id.findByEventCode(event_code))
+      .then((event_id) => db.participants.read.filterByEventId(event_id))
+      .then((participant) => res.json(participant));
+  });
+
   return participants;
 };

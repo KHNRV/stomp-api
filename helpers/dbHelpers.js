@@ -110,6 +110,19 @@ module.exports = (db) => {
             .catch((err) => err);
         },
       },
+      create(event_id, participant) {
+        const { bib, first_name, last_name, email, phone } = participant;
+        const query = {
+          text: ` INSERT INTO participants (bib, first_name, last_name, email, phone, event_id)
+        VALUES ($1, $2, $3, $4, $5, $6);`,
+          values: [bib, first_name, last_name, email, phone, event_id],
+        };
+
+        return db
+          .query(query)
+          .then((result) => result.rows)
+          .catch((err) => err);
+      },
     },
     judges: {
       read: {
