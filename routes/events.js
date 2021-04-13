@@ -1,5 +1,7 @@
 const events = require("express").Router();
 const competitions = require("./competitions");
+const participants = require("./participants");
+const judges = require("./judges");
 
 module.exports = (db) => {
   /* GET users listing. */
@@ -27,6 +29,8 @@ module.exports = (db) => {
   });
 
   events.use("/:event_code/competitions", competitions(db));
+  events.use("/:event_code/participants", participants(db));
+  events.use("/:event_code/judges", judges(db));
 
   return events;
 };
