@@ -149,10 +149,15 @@ module.exports = (db) => {
           values: [bib, first_name, last_name, email, phone, participant_id],
         };
 
-        return db
-          .query(query)
-          .then((result) => result.rows)
-          .catch((err) => err);
+        return db.query(query).then((result) => result.rows);
+      },
+      delete(participant_id) {
+        const query = {
+          text: ` DELETE FROM participants
+                  WHERE id = $1`,
+          values: [participant_id],
+        };
+        return db.query(query).then((result) => result.rows);
       },
     },
     judges: {
