@@ -109,13 +109,44 @@ module.exports = (db) => {
             .then((result) => result.rows)
             .catch((err) => err);
         },
+        findById(id) {
+          const query = {
+            text: ` SELECT id, bib, first_name, last_name, email, phone, event_id
+                    FROM participants
+                    WHERE id = $1;`,
+            values: [id],
+          };
+
+          return db
+            .query(query)
+            .then((result) => result.rows[0])
+            .catch((err) => err);
+        },
       },
       create(event_id, participant) {
         const { bib, first_name, last_name, email, phone } = participant;
         const query = {
           text: ` INSERT INTO participants (bib, first_name, last_name, email, phone, event_id)
-        VALUES ($1, $2, $3, $4, $5, $6);`,
+                  VALUES ($1, $2, $3, $4, $5, $6);`,
           values: [bib, first_name, last_name, email, phone, event_id],
+        };
+
+        return db
+          .query(query)
+          .then((result) => result.rows)
+          .catch((err) => err);
+      },
+      update(participant_id, participant) {
+        const { bib, first_name, last_name, email, phone } = participant;
+        const query = {
+          text: ` UPDATE participants
+                  SET bib = $1,
+                      first_name = $2,
+                      last_name = $3,
+                      email = $4,
+                      phone = $5
+                  WHERE id = $6;`,
+          values: [bib, first_name, last_name, email, phone, participant_id],
         };
 
         return db
