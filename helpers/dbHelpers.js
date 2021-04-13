@@ -2,6 +2,22 @@ module.exports = (db) => {
   return {
     events: {
       read: {
+        id: {
+          findByEventCode(event_code) {
+            const query = {
+              text: ` SELECT id
+                      FROM events
+                      WHERE event_code = $1
+                      `,
+              values: [event_code],
+            };
+
+            return db
+              .query(query)
+              .then((result) => result.rows[0].id)
+              .catch((err) => err);
+          },
+        },
         all() {
           const query = {
             text: ` SELECT id, event_code, event_name, email FROM events`,
@@ -30,25 +46,20 @@ module.exports = (db) => {
     },
     competitions: {
       read: {
-        filterByEventCode(event_code) {
+        filterByEventId(event_id) {
           const query = {
-            text: ` WITH event_id AS (
-                            SELECT id
-                            FROM events
-                            WHERE event_code = $1
-                    )
-                    SELECT  competitions.id, 
+            text: ` SELECT  competitions.id, 
                             competitions.name, 
                             competitions.scoring_system_id, 
                             array_agg(DISTINCT entries.participant_id) AS participants,
                             array_agg(DISTINCT judges_competitions.judge_id) AS judges,
                             competitions.head_judge_id
                     FROM competitions, entries, judges_competitions
-                    WHERE competitions.event_id = event_id
+                    WHERE competitions.event_id = $1
                     AND entries.competition_id = competitions.id
                     AND judges_competitions.competition_id = competitions.id
                     GROUP BY competitions.id;`,
-            values: [event_code],
+            values: [event_id],
           };
 
           return db
@@ -74,6 +85,40 @@ module.exports = (db) => {
                     AND judges_competitions.competition_id = competitions.id
                     ORDER BY participant_id, judge_id`,
             values: [competition_id],
+          };
+
+          return db
+            .query(query)
+            .then((result) => result.rows)
+            .catch((err) => err);
+        },
+      },
+    },
+    participants: {
+      read: {
+        filterByEventId(event_id) {
+          const query = {
+            text: ` SELECT id, bib, first_name, last_name, email, phone
+                    FROM participants
+                    WHERE event_id = $1;`,
+            values: [event_id],
+          };
+
+          return db
+            .query(query)
+            .then((result) => result.rows)
+            .catch((err) => err);
+        },
+      },
+    },
+    judges: {
+      read: {
+        filterByEventId(event_id) {
+          const query = {
+            text: ` SELECT id, first_name, last_name, email, phone
+                    FROM judges
+                    WHERE event_id = $1;`,
+            values: [event_id],
           };
 
           return db
