@@ -75,7 +75,7 @@ module.exports = (db) => {
           const query = {
             text: ` SELECT DISTINCT entries.participant_id AS participant_id,
                                 judges_competitions.judge_id AS judge_id,
-                                scores.value AS score
+                                scores.score_value AS score
                     FROM competitions
                     JOIN entries ON entries.competition_id = competitions.id
                     JOIN judges_competitions ON judges_competitions.competition_id = competitions.id
