@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
+const events = require("express").Router();
+const competitions = require("./competitions");
 
 module.exports = (db) => {
   /* GET users listing. */
-  router.get("/", (req, res) => {
-    db.events
+  events.get("/", (req, res) => {
+    db.events.read
       .all()
-      .then((users) => res.json(users))
+      .then((events) => res.json(events))
       .catch((err) =>
         res.json({
           error: err.message,
@@ -14,11 +14,11 @@ module.exports = (db) => {
       );
   });
 
-  router.get("/:event_code", (req, res) => {
+  events.get("/:event_code", (req, res) => {
     const event_code = req.params.event_code;
-    db.events
-      .getByCode(event_code)
-      .then((users) => res.json(users))
+    db.events.read
+      .findByEventCode(event_code)
+      .then((event) => res.json(event))
       .catch((err) =>
         res.json({
           error: err.message,
@@ -26,5 +26,7 @@ module.exports = (db) => {
       );
   });
 
-  return router;
+  events.use("/:event_code/competitions", competitions(db));
+
+  return events;
 };
