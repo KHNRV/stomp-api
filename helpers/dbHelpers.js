@@ -51,10 +51,10 @@ module.exports = (db) => {
                             array_agg(DISTINCT entries.participant_id) AS participants,
                             array_agg(DISTINCT judges_competitions.judge_id) AS judges,
                             competitions.head_judge_id
-                    FROM competitions, entries, judges_competitions
+                    FROM competitions
+                    FULL OUTER JOIN entries ON (competitions.id = entries.competition_id)
+                    FULL OUTER JOIN judges_competitions ON (competitions.id = judges_competitions.competition_id)
                     WHERE competitions.event_id = $1
-                    AND entries.competition_id = competitions.id
-                    AND judges_competitions.competition_id = competitions.id
                     GROUP BY competitions.id;`,
             values: [event_id],
           };
@@ -64,6 +64,34 @@ module.exports = (db) => {
             .then((result) => result.rows)
             .catch((err) => err);
         },
+        findById(id) {
+          const query = {
+            text: ` SELECT  competitions.id, 
+                            competitions.name, 
+                            competitions.scoring_system_id, 
+                            array_agg(DISTINCT entries.participant_id) AS participants,
+                            array_agg(DISTINCT judges_competitions.judge_id) AS judges,
+                            competitions.head_judge_id,
+                            competitions.event_id
+                    FROM competitions, entries, judges_competitions
+                    WHERE competitions.id = 1
+                    GROUP BY competitions.id`,
+            values: [id],
+          };
+
+          return db.query(query).then((result) => result.rows[0]);
+        },
+      },
+      create(event_id, competition) {
+        const { name, scoring_system_id } = competition;
+        console.log(name, scoring_system_id);
+        const query = {
+          text: ` INSERT INTO competitions (name, scoring_system_id, event_id)
+                  VALUES ($1, $2, $3);`,
+          values: [name, scoring_system_id, event_id],
+        };
+
+        return db.query(query).then((result) => result.rows[0]);
       },
     },
     scores: {
