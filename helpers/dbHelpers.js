@@ -1,5 +1,5 @@
 module.exports = (db) => {
-  return {
+  const _db = {
     events: {
       read: {
         id: {
@@ -93,6 +93,19 @@ module.exports = (db) => {
 
         return db.query(query).then((result) => result.rows[0]);
       },
+      update(competition_id, competition) {
+        const { name, scoring_system_id, head_judge_id } = competition;
+        const query = {
+          text: ` UPDATE competitions
+                  SET name = $1,
+                      scoring_system_id = $2,
+                      head_judge_id = $3
+                  WHERE id = $4;`,
+          values: [name, scoring_system_id, head_judge_id, competition_id],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
       delete(competition_id) {
         const query = {
           text: ` DELETE FROM competitions
@@ -104,26 +117,68 @@ module.exports = (db) => {
     },
     scores: {
       read: {
-        filterByCompetitionId(competition_id) {
-          const query = {
-            text: ` SELECT DISTINCT entries.participant_id AS participant_id,
-                                judges_competitions.judge_id AS judge_id,
-                                scores.score_value AS score
-                    FROM competitions
-                    JOIN entries ON entries.competition_id = competitions.id
-                    JOIN judges_competitions ON judges_competitions.competition_id = competitions.id
-                    LEFT JOIN scores ON entries.id = scores.entry_id
-                    WHERE competitions.id = $1
-                    AND entries.competition_id = competitions.id
-                    AND judges_competitions.competition_id = competitions.id
-                    ORDER BY participant_id, judge_id`,
-            values: [competition_id],
-          };
+        score: {
+          findByFKs(entry_id, judge_id) {
+            const query = {
+              text: ` SELECT score
+                      FROM scores
+                      WHERE entry_id = $1
+                      AND judge_id = $2`,
+              values: [entry_id, judge_id],
+            };
 
-          return db
-            .query(query)
-            .then((result) => result.rows)
-            .catch((err) => err);
+            return db.query(query).then((result) => {
+              if (result.rows.length) {
+                return result.rows[0].score;
+              } else {
+                return null;
+              }
+            });
+          },
+        },
+      },
+      delete: {
+        participantsInArray(competition_id, participants_ids) {
+          const query = {
+            text: ` DELETE FROM scores USING entries
+                    WHERE scores.entry_id = entries.id
+                    AND entries.competition_id = $1
+                    AND (participant_id = ANY ($2))`,
+            values: [competition_id, participants_ids],
+          };
+          return db.query(query).then((result) => result.rows);
+        },
+      },
+      create(entry_id, judge_id, score) {
+        const query = {
+          text: ` INSERT INTO scores (entry_id, judge_id, score)
+                  VALUES ($1, $2, $3);`,
+          values: [entry_id, judge_id, score],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
+      generate: {
+        async scoreObjects(competition_id, participants_ids, judge_ids) {
+          const scores = [];
+          for (const participant_id of participants_ids) {
+            for (const judge_id of judge_ids) {
+              scores.push({ participant_id, judge_id, score: null });
+            }
+          }
+
+          for (const score of scores) {
+            const entry_id = await _db.entries.read.id.findByFKs(
+              score.participant_id,
+              competition_id
+            );
+
+            score.score = await _db.scores.read.score.findByFKs(
+              entry_id,
+              score.judge_id
+            );
+          }
+          return scores;
         },
       },
     },
@@ -256,5 +311,66 @@ module.exports = (db) => {
         return db.query(query).then((result) => result.rows);
       },
     },
+    entries: {
+      read: {
+        id: {
+          findByFKs(participant_id, competition_id) {
+            const query = {
+              text: ` SELECT id FROM entries
+                      WHERE participant_id = $1
+                      AND competition_id = $2`,
+              values: [participant_id, competition_id],
+            };
+
+            return db.query(query).then((result) => result.rows[0].id);
+          },
+        },
+      },
+      delete: {
+        participantsNotInArray(competition_id, participants_ids) {
+          const query = {
+            text: ` DELETE FROM entries
+                    WHERE competition_id = $1
+                    AND NOT (participant_id = ANY ($2))`,
+            values: [competition_id, participants_ids],
+          };
+          return db.query(query).then((result) => result.rows);
+        },
+      },
+      create(participant_id, competition_id) {
+        const query = {
+          text: ` INSERT INTO entries (participant_id, competition_id)
+                  VALUES ($1, $2)
+                  ON CONFLICT DO NOTHING;`,
+          values: [participant_id, competition_id],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
+    },
+    judges_competitions: {
+      create(judge_id, competition_id) {
+        const query = {
+          text: ` INSERT INTO judges_competitions (judge_id, competition_id)
+                  VALUES ($1, $2)
+                  ON CONFLICT DO NOTHING;`,
+          values: [judge_id, competition_id],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
+      delete: {
+        judgesNotInArray(competition_id, judges_id) {
+          const query = {
+            text: ` DELETE FROM judges_competitions
+                    WHERE competition_id = $1
+                    AND NOT (judge_id = ANY ($2))`,
+            values: [competition_id, judges_id],
+          };
+          return db.query(query).then((result) => result.rows);
+        },
+      },
+    },
   };
+  return _db;
 };
