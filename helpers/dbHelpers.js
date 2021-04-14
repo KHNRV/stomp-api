@@ -175,6 +175,52 @@ module.exports = (db) => {
             .then((result) => result.rows)
             .catch((err) => err);
         },
+        findById(id) {
+          const query = {
+            text: ` SELECT id, first_name, last_name, email, phone, event_id
+                    FROM judges
+                    WHERE id = $1;`,
+            values: [id],
+          };
+
+          return db
+            .query(query)
+            .then((result) => result.rows[0])
+            .catch((err) => err);
+        },
+      },
+      create(event_id, judge) {
+        const { first_name, last_name, email, phone } = judge;
+
+        const query = {
+          text: ` INSERT INTO judges (first_name, last_name, email, phone, event_id)
+                  VALUES ($1, $2, $3, $4, $5);`,
+          values: [first_name, last_name, email, phone, event_id],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
+      update(judge_id, judge) {
+        const { first_name, last_name, email, phone } = judge;
+        const query = {
+          text: ` UPDATE judges
+                  SET first_name = $1,
+                      last_name = $2,
+                      email = $3,
+                      phone = $4
+                  WHERE id = $5;`,
+          values: [first_name, last_name, email, phone, judge_id],
+        };
+
+        return db.query(query).then((result) => result.rows);
+      },
+      delete(judge_id) {
+        const query = {
+          text: ` DELETE FROM judges
+                  WHERE id = $1`,
+          values: [judge_id],
+        };
+        return db.query(query).then((result) => result.rows);
       },
     },
   };
