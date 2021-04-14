@@ -16,6 +16,6 @@ ALTER TABLE "judges_competitions" ADD FOREIGN KEY ("judge_id") REFERENCES "judge
 
 ALTER TABLE "judges" ADD FOREIGN KEY ("event_id") REFERENCES "events" ("id");
 
-ALTER TABLE "scores" ADD FOREIGN KEY ("entry_id") REFERENCES "entries" ("id");
+ALTER TABLE "scores" ADD FOREIGN KEY ("entry_id") REFERENCES "entries" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "scores" ADD FOREIGN KEY ("judge_id") REFERENCES "judges" ("id");
