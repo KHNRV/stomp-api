@@ -74,7 +74,7 @@ module.exports = (db) => {
                             competitions.head_judge_id,
                             competitions.event_id
                     FROM competitions, entries, judges_competitions
-                    WHERE competitions.id = 1
+                    WHERE competitions.id = $1
                     GROUP BY competitions.id`,
             values: [id],
           };
@@ -92,6 +92,14 @@ module.exports = (db) => {
         };
 
         return db.query(query).then((result) => result.rows[0]);
+      },
+      delete(competition_id) {
+        const query = {
+          text: ` DELETE FROM competitions
+                  WHERE id = $1`,
+          values: [competition_id],
+        };
+        return db.query(query).then((result) => result.rows);
       },
     },
     scores: {
