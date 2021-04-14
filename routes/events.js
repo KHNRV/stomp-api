@@ -21,11 +21,7 @@ module.exports = (db) => {
     db.events.read
       .findByEventCode(event_code)
       .then((event) => res.json(event))
-      .catch((err) =>
-        res.json({
-          error: err.message,
-        })
-      );
+      .catch((err) => res.status(400).json({ status: "error", message: err }));
   });
 
   events.use("/:event_code/competitions", competitions(db));

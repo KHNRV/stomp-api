@@ -37,10 +37,7 @@ module.exports = (db) => {
             values: [event_code],
           };
 
-          return db
-            .query(query)
-            .then((result) => result.rows[0])
-            .catch((err) => err);
+          return db.query(query).then((result) => result.rows[0]);
         },
       },
     },
