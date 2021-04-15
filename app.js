@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const db = require("./db");
 const dbHelpers = require("./helpers/dbHelpers")(db);
+const cors = require('cors')
 
 const index = require("./routes/index");
 const events = require("./routes/events");
@@ -15,6 +16,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+const corsOptions = {
+  whitelist: ['http://localhost:3001/', 'http://localhost:3000/'],
+  origin: function (origin, callback) {
+    if (this.whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 app.use("/", index);
 app.use("/api/events", events(dbHelpers));
