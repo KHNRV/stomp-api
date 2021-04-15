@@ -161,6 +161,9 @@ module.exports = (db) => {
       generate: {
         async scoreObjects(competition_id, participants_ids, judge_ids) {
           const scores = [];
+          if (!participants_ids[0] || !judge_ids[0]) {
+            return scores
+          }
           for (const participant_id of participants_ids) {
             for (const judge_id of judge_ids) {
               scores.push({ participant_id, judge_id, score: null });
