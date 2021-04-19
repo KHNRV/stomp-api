@@ -26,7 +26,8 @@ module.exports = (db) => {
       })
       .then(() => db.events.read.id.findByEventCode(event_code))
       .then((event_id) => db.judges.read.filterByEventId(event_id))
-      .then((judges) => res.json(judges));
+      .then((judges) => res.json(judges))
+      .catch((err) => res.json(err));
   });
 
   judges.put("/:judge_id", (req, res) => {

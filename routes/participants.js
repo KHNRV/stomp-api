@@ -26,7 +26,8 @@ module.exports = (db) => {
         return db.participants.create(event_id, participant);
       })
       .then(() => db.participants.read.filterByEventId(event_id))
-      .then((participants) => res.json(participants));
+      .then((participants) => res.json(participants))
+      .catch((err) => res.json(err));
   });
 
   participants.put("/:participant_id", (req, res) => {
