@@ -10,13 +10,13 @@
 -- insert into judges (first_name, last_name, email, phone, event_id) values ('Tabbitha', 'Chattey', 'tchattey9@delicious.com', '(850) 8553928', 2);
 
 insert into judges (first_name, last_name, email, phone, event_id) values 
-('Angela',	'Andrew', null, null,	1),
-('Annie',	'Trudeau', null, null,	1),
-('Caitlin',	'Wellman', null, null,	1),
-('Helena',	'Norbelie', null, null,	1),
-('Latasha',	'Barnes', null, null,	1),
-('Mickey',	'Fortanasce', null, null,	1),
-('Nalla',	'Kim', null, null,	1),
-('Kenneth',	'Norbelie', null, null,	1),
-('Lennart',	'Westerlund', null, null,	1),
-('Mia',	'Halloran', null, null,	1);
+('Angela',	'Andrew', 'angela.andrew@gmail.com', '+1(514) 444-1155',	1),
+('Annie',	'Trudeau', 'annie.trudeau@outlook.com', '+1(514) 451-7584',	1),
+('Caitlin',	'Wellman', 'caitlin.wellman@gmail.com', '+1(514) 758-5789',	1),
+('Helena',	'Norbelie', 'helena.norbelie@outlook.com', '+1(514) 588-4254',	1),
+('Latasha',	'Barnes', 'latasha.barnes@outlook.com', '+1(514) 557-7485',	1),
+('Mickey',	'Fortanasce', 'mickey.thebalguy@outlook.com', '+1(514) 869-7845',	1),
+('Nalla',	'Kim', 'nalla.kim@hey.com', '+1(514) 555-4544',	1),
+('Kenneth',	'Norbelie', 'ken.norbelie@yahoo.com', '+1(514) 657-4457',	1),
+('Lennart',	'Westerlund', 'lennart.westerlund@gmail.com', '+1(514) 687-4578',	1),
+('Mia',	'Halloran', 'mia.halloran@gmail.com', '+1(514) 567-9865',	1);
